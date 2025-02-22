@@ -6,7 +6,24 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint --fix",
+    "prepare": "husky",
+    "format": "prettier --write .",
+    "tsc": "tsc -p tsconfig.json --noEmit",
+    "correct": "npm run format && npm run && npm run lint && npm run tsc",
+    "update": "git fetch origin && git rebase origin/main",
+    "pre-push": "npm run update && npm run correct && npm run build"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "lint --cache --fix",
+      "prettier --cache --write"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "dependencies": {
     "axios": "^1.7.9",
